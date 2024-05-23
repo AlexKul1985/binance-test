@@ -47,10 +47,3 @@
   }
  } 
 </script>
-<style lang="scss">
-.mobile-menu {
- @media screen and (max-width: 540px) {
-    display: block;
- }
-}
-</style>

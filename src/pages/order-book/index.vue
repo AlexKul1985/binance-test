@@ -8,7 +8,6 @@
         :items="QuantityList"
         variant="outlined"
         v-model="limitValue"
-        @change="onChangeFilterQuantity"
       />
     </div>
     <div class="order-book__content">
@@ -77,7 +76,6 @@ export default {
 
     return {
       selectedCurrency: computed(() => settingsStore.selectedCurrency),
-      onChangeFilterQuantity,
       limitValue,
       QuantityList,
     }
