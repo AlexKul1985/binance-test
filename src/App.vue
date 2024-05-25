@@ -21,7 +21,7 @@
 <script lang="ts" >
   import { computed } from 'vue'
   import { useRouter } from 'vue-router'
-  import { RoutesNames } from './router/constants'
+  import { RoutesNames } from '@/router/constants'
   
  export default {
   setup() {
@@ -30,14 +30,14 @@
 
       const currentLink = computed({
         get(){
-          return router.currentRoute.value.name
+          return router.currentRoute.value.name as RoutesNames
         },
-        set(linkName: string) {
+        set(linkName: RoutesNames) {
           onChangePage(linkName)
         }
       })
 
-      const onChangePage = (linkName: string) => {
+      const onChangePage = (linkName: RoutesNames) => {
         router.push({ name: linkName })
       }
     return {

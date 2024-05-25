@@ -1,6 +1,6 @@
 import { Connector } from '../api/websocket'
 import { getOrderBookForCurrencyPair } from '../api/rest'
-import  { ApiPayload,  ConnectorEventsHandlers } from '../api/types'
+import  { type ApiPayload,  type ConnectorEventsHandlers } from '../api/types'
 
 export const orderBookRepository = {
   async subscribe(payload: ApiPayload, eventsHandlers: ConnectorEventsHandlers) {

@@ -24,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { onUnmounted, computed } from 'vue' 
+import { Ref, ref, onUnmounted, computed } from 'vue' 
 
 import { AsksTable, BidsTable, useOrderBookStore, CLOSE_FROM_CLIENT, QuantityList, type QuantityVariants } from '@/modules/order-book'
-import { useSettingsStore, type CurrencyVariants } from '@/modules/settings'
+import  { useSettingsStore } from '@/modules/settings'
 import { useLogList } from '@/modules/log'
 
 export default {
@@ -38,7 +38,11 @@ export default {
   setup() {
     const settingsStore = useSettingsStore()
     const orderBookStore = useOrderBookStore()
-
+    type User = {
+      name: string
+      age: number
+    }
+    const user: Ref<User> = ref({ name: 'Alex', age: 10 })
     let closeWsConnectionFn: () => void  = () => {}
 
     const onChangeFilterQuantity = (limit: QuantityVariants) => {
@@ -48,20 +52,21 @@ export default {
     }
     
     const limitValue = computed({
-      get() {
-         return orderBookStore.limit 
+      get: () => {
+         return orderBookStore.limit as QuantityVariants
       },
-      set(limit: QuantityVariants) {
+      set: (limit: QuantityVariants) => {
         onChangeFilterQuantity(limit)
       }
     })
+    
 
     const subscribeToMarketOrderUpdates = () => {
       orderBookStore.subscribeToMarketOrderUpdates(settingsStore.selectedCurrency, (event: CloseEvent) => {
         if(event.reason === CLOSE_FROM_CLIENT) {
               const logList = useLogList()
               logList.restore()
-              logList.setCurrentCurrency<CurrencyVariants>(settingsStore.selectedCurrency)
+              logList.setCurrentCurrency(settingsStore.selectedCurrency)
         }
       }).then((fn: () => void ) => {
         closeWsConnectionFn = fn
@@ -75,6 +80,7 @@ export default {
     })
 
     return {
+      user,
       selectedCurrency: computed(() => settingsStore.selectedCurrency),
       limitValue,
       QuantityList,
